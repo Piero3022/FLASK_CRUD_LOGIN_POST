@@ -1,0 +1,44 @@
+{% extends 'base.html'%}
+
+{% block header %}
+<h2>{%block title%} Publicaciones {%endblock%} </h2>
+{%endblock%}
+
+{% block content %}
+
+{%for post in posts %}
+<article>
+    <header>
+        <h1>
+            {{post.title }}
+        </h1>
+        <div>
+            Publicado por {{get_user(post.author).username}}
+            el {{post.created.strftime('%Y-%m-%d')}}
+        </div>
+    </header>
+
+    {%for coment in coments %}
+
+    <div>
+        <p>
+            {{coment.body}}
+        </p>
+    </div>
+
+
+    {%endfor%}
+
+    <form method="POST" action="{{ url_for('comentario.comentario_create') }}">
+        <label for="body">Comentario</label>
+        <input type="hidden" name="post_id" value="{{ post.id }}">
+        <textarea name="body" id="body" cols="30" rows="10"></textarea>
+        <input type="submit" value="COMENTAR">
+    </form>
+
+
+</article>
+
+{%endfor%}
+
+{%endblock%}
